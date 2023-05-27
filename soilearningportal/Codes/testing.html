@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercise 1</title>
+</head>
+
+<body>
+
+    <form id="myForm">
+        <!-- Two text fields - Name and Email -->
+        <input id="name" type="text" placeholder="Name" value=""><br><br>
+        <input id="email" type="email" placeholder="Email" value=""><br><br>
+        <!-- Two radio buttons for Gender - Male and Female -->
+
+
+        <input type="radio" name="G" value="M" />Male
+        <input type="radio" name="G" value="F" />Female
+
+    </form>
+    <br>
+
+    <button type="button" onclick="myFunction()">Show details</button>
+    <div id="viewName"></div>
+    <div id="viewEmail"></div>
+    <div id="viewGender"></div>
+    <div id="test"></div>
+    <script>
+        function myFunction() {
+            var gg = document.getElementById("name").value;
+            var gg2 = document.getElementById("email").value;
+            // var gay = document.getElementByName("Gender").value; 
+            var test = document.querySelector(":checked").value;
+
+            var ele = document.getElementsByName('G');
+              
+              for(i = 0; i < ele.length; i++) {
+                  if(ele[i].checked)
+                  document.getElementById("viewGender").innerHTML = "Gender: "+ele[i].value;
+            }
+
+            // document.getElementById("viewtest").innerHTML = ele;
+
+            document.getElementById("test").innerHTML =  "ggender: " + test;
+            document.getElementById("viewEmail").innerHTML =  "Email: " +gg2;
+            document.getElementById("viewName").innerHTML =  "Name: " + gg;
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Add Bootstrap CSS here -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <!-- Add Bootstrap JS here -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/dc39ec6c96.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <title>exercise2</title>
+    <style>
+        .loggedIn {
+
+            background: transparent;
+            border-color: rgb(87, 219, 87);
+            border-bottom: 100%;
+            border-style: solid;
+            border-radius: 50%;
+        }
+
+        .loggedOff {
+
+            background: transparent;
+            border-color: rgb(149, 149, 149);
+            border-bottom: 100%;
+            border-style: solid;
+            border-radius: 50%;
+        }
+
+
+
+        .dropbtn {
+            background-color: inherit;
+            color: inherit;
+            padding: 8px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            margin-top: 9px;
+            background-color: grey;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+
+        /* autocomplete searchbox styling */
+
+        .list {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 0 0 5px 5px;
+            list-style: none;
+        }
+
+        .list-items {
+            padding: 10px 5px;
+        }
+
+        .list:hover {
+            background-color: #dddddd;
+        }
+
+        .list-items:hover {
+            background-color: transparent;
+        }
+
+        /* dropdown for notif */
+        .dropbtn-notif {
+            background-color: inherit;
+            color: inherit;
+            padding: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+
+        .dropdown-notif {
+            float: right;
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content-notif {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            right: 0;
+            z-index: 1;
+        }
+
+        .dropdown-content-notif a {
+            color: black;
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-notif a:hover {
+            background-color: #ddd;
+        }
+
+        .show {
+            display: block;
+        }
+        #canvas-content{
+            overflow-y: auto;
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- nav bar -->
+    <nav class="navbar navbar-expand-sm navbar-light bg-secondary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)"><i
+                    class="text-warning fa-solid fa-book-open-reader"></i><b> SOI Learning Club</b></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto mx-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- <a class="nav-link" href="javascript:void(0)">Courses</a> -->
+                        <div class="dropdown">
+
+                            <a class="nav-link dropbtn">
+                                Courses
+
+                            </a>
+                            <div class="dropdown-content">
+                                <a href="#">HTML</a>
+                                <a href="#">CSS</a>
+                                <a href="#">PHP</a>
+                                <a href="#">JavaScript</a>
+                                <a href="#">Python</a>
+                                <a href="#">Java</a>
+                                <a href="#">IOS</a>
+                                <a href="#">React</a>
+                            </div>
+                        </div>
+
+
+
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0)">Contact</a>
+                    </li>
+
+
+                    <input class="form-control" type="text" id="input" placeholder="Search" />
+
+                </ul>
+
+                <div class="dropdown-notif">
+                    <i onclick="myFunction()" class="dropbtn-notif fa-solid fa-bell"></i>
+                    <div id="myDropdown-notif" class="dropdown-content-notif">
+                        <a id="msg1" href="#">Message 1: Press to read</a>
+                        <a id="msg2" href="#">Message 2: This is already read</a>
+
+                    </div>
+                </div>
+
+                <script>
+                    /* When the user clicks on the button, 
+                    toggle between hiding and showing the dropdown content */
+                    function myFunction() {
+                        document.getElementById("myDropdown-notif").classList.toggle("show");
+                        document.getElementById("msg1").css("border-left", "4px solid blue");
+                    }
+
+                    // Close the dropdown if the user clicks outside of it
+                    window.onclick = function (event) {
+                        if (!event.target.matches('.dropbtn-notif')) {
+                            var dropdowns = document.getElementsByClassName("dropdown-content-notif");
+                            var i;
+                            for (i = 0; i < dropdowns.length; i++) {
+                                var openDropdown = dropdowns[i];
+                                if (openDropdown.classList.contains('show')) {
+                                    openDropdown.classList.remove('show');
+                                }
+                            }
+                        }
+                    }
+                </script>
+
+
+                <button class="loggedIn"><i class="fa-solid fa-user"></i></i></button>
+
+                
+
+
+                </form>
+            </div>
+        </div>
+    </nav>
+    <!-- banner -->
+    <div class="container-fluid bg-info">
+        <div class="container-lg ">
+            <div class="row pt-5 d-flex align-items-center">
+                <div class="col-sm-7 pb-5">
+
+                    <h1>Welcome to SOI Learning Portal</h1>
+
+                    <p>Expertly crafted courses that best fit your learning needs and preferences.</p>
+
+                    <button type="button" class="btn btn-primary">Browse Courses</button>
+                    <button type="button" class="btn btn-primary">Be an Instructor</button>
+                </div>
+
+                <div class="col-sm-5 align-self-end text-center">
+                    <img src="../Sources/simuliu.png" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="container-fluid">
+        <div class="mt-3 row d-flex justify-content-center">
+            <div class="col-lg-1 col-md-8"> </div>
+
+            <div class="col-lg-3 col-md-8 d-flex justify-content-center mb-3">
+                <div class="row">
+                    <div class="col-2 justify-content-center my-auto">
+                        <i class="fa-2x fa-sharp fa-solid fa-book"></i>
+                    </div>
+                    <div class="col-10">
+                        <small>158 online courses<br>Enjoy a variety of fresh topics</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-8 d-flex justify-content-center mb-3">
+                <div class="row">
+                    <div class="col-2 justify-content-center my-auto">
+                        <i class="fa-2x fa-sharp fa-solid fa-user"></i>
+                    </div>
+                    <div class="col-10">
+                        <small>Expert instruction<br>Find the right instructor for you</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-8 d-flex justify-content-center mb-3">
+                <div class="row">
+                    <div class="col-2 justify-content-center my-auto">
+                        <i class="fa-2x fa-solid fa-clock-rotate-left"></i>
+                    </div>
+                    <div class="col-10">
+                        <small>Lifetime access<br>Learn on your schedule</small>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-lg-1 col-md-8"> </div>
+        </div>
+    </div>
+    <hr>
+    <br>
+    <br>
+    <br>
+
+
+
+
+
+
+
+ <!-- Carousel -->`
+ <div id="demo" class="carousel slide" data-bs-ride="carousel">
+
+    <!-- Indicators/dots -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#demo" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#demo" data-bs-slide-to="1"></button>
+
+    </div>
+
+    <!-- The slideshow/carousel -->
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="mx-5 card-group">
+                <div col-3 class="mx-2 mb-3 card" id="item1">
+                    <img src="../Sources/htmlcss.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Introduction to HTML and CSS</h5>
+                        <p class="card-text">2h 30m</p>
+                    </div>
+
+                    <div class="card-footer" >
+                        <i class="fa-1.5x fa-solid fa-user"></i>
+                        <small class="text-muted">Hannah Lim</small>
+                        <button id="card1" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark1" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+
+
+
+
+
+                <div col-3 class="mx-2 mb-3 card" id="item2" >
+                    <img src="../Sources/UIUX.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">User Experience and Interface Design</h5>
+                        <p class="card-text">2h 45m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Julia Lee</small>
+                        <button id="card2" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark2" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                <div col-3 class="mx-2 mb-3 card " id="item3">
+                    <img src="../Sources/IOS dev.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">iOS App Development using Xcode and Swift</h5>
+                        <p class="card-text">4h 30m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Ryan Low</small>
+                        <button id="card3" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark3" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <div col-3 class="mx-2 mb-3 card" id="item4">
+                    <img src="../Sources/javascript.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Front-end JavaScript Frameworks</h5>
+                        <p class="card-text">3h 45m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Azhar Kamar</small>
+                        <button id="card4" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark4" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="carousel-item">
+            <div class="mx-5 card-group">
+                <div col-3 class="mx-2 mb-3 card" id="item5">
+                    <img src="../Sources/react.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">React</h5>
+                        <p class="card-text">2h 30m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Hannah Lim</small>
+                        <button id="card5" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark5" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+
+
+                <div col-3 class="mx-2 mb-3 card" id="item6">
+                    <img src="../Sources/php.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">PHP</h5>
+                        <p class="card-text">2h 45m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Julia Lee</small>
+                        <button id="card6" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark6" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <div col-3 class="mx-2 mb-3 card" id="item7">
+                    <img src="../Sources/business.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Business Intellegence</h5>
+                        <p class="card-text">4h 30m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Ryan Low</small>
+                        <button id="card7" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark7" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+
+
+
+
+
+                <div col-3 class="mx-2 mb-3 card" id="item8">
+                    <img src="../Sources/androidDev.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Android Programming</h5>
+                        <p class="card-text">3h 45m</p>
+                    </div>
+
+                    <div class="card-footer">
+                        <i class="fa-solid fa-user"></i>
+                        <small class="text-muted">Azhar Kamar</small>
+                        <button id="card8" class="border-0 float-end" onclick="bookmarkFunction()" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasBottom">
+                    <i class="fa-solid fa-bookmark" title="Add to bookmarks" id="mark8" data-bs-toggle="tooltip"></i>
+                </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Left and right controls/icons -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+
+<div class="container-fluid mt-3">
+
+</div>
+
+
+
+
+
+
+
+
+    <!-- FOOTER-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8">
+                <p class="float-left text-secondary">@2021 SOI Learning Portal, All rights reserved</p>
+            </div>
+            <div class="col-lg-1 col-8">
+                <p class="text-secondary">Privacy</p>
+            </div>
+            <div class="col-lg-1 col-8">
+                <p class="text-secondary">Terms</p>
+            </div>
+            <div class="col-lg-1 col-8">
+                <p class="text-secondary">Feedback</p>
+            </div>
+            <div class="col-lg-1 col-8">
+                <p class="text-secondary">Support</p>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+
+    <div class="offcanvas offcanvas-bottom" tabindex="-1" id="offcanvasBottom" aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Offcanvas bottom</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body small" id="canvas-content">
+            <div class="row">
+                <div col-2 id="bookmarks"></div>
+            </div>
+        </div>
+
+
+
+
+<!-- 
+        <script>
+            function log() {
+                $(".loggedIn").click(function () {
+                    $(".loggedIn").toggleClass("loggedOff");
+                });
+            }
+
+        </script> -->
+
+        <script>
+
+
+            $(document).ready(function () {
+
+
+                $(".loggedIn").click(function () {
+                    $(".loggedIn").toggleClass("loggedOff");
+                });
+
+                // Initialise tooltips
+                $('[data-bs-toggle="tooltip"]').tooltip();
+
+
+                // offcanvas
+                $("#mark1").click(function () {
+                    $("#item1:first").clone().appendTo("#bookmarks").css("display", "inline-flex");
+
+                });
+                $("#mark2").click(function () {
+                    $("#item2:first").clone().appendTo("#bookmarks").css("display", "inline-flex");
+
+                });
+                $("#mark3").click(function () {
+                    $("#item3:first").clone().appendTo("#bookmarks").css("display", "inline-flex");
+
+                });
+                $("#mark4").click(function () {
+                    $("#item4:first").clone().appendTo("#bookmarks").css("display", "inline-flex");
+
+                });
+                $("#mark5").click(function () {
+                    $("#item5:first").clone().appendTo("#bookmarks").css("display", "inline-flex");
+
+                });
+                $("#mark6").click(function () {
+                    $("#item6:first").clone().appendTo("#bookmarks").css("display", "inline-flex")
+
+                });
+                $("#mark7").click(function () {
+                    $("#item7:first").clone().appendTo("#bookmarks").css("display", "inline-flex")
+
+                });
+                $("#mark8").click(function () {
+                    $("#item8:first").clone().appendTo("#bookmarks").css("display", "inline-flex")
+
+                });
+
+                // autocomplete
+                $(function () {
+                    var searchTags = [
+                        "HTML",
+                        "CSS",
+                        "PHP",
+                        "JavaScript",
+                        "Python",
+                        "Java",
+                        "iOS",
+                        "Swift",
+                        "React",
+                        "Web Design",
+                        "Web Development"
+                    ];
+
+                    $("#input").autocomplete({
+                        source: searchTags
+
+                    });
+                });
+            });
+
+
+        </script>
+    </div>
+
+</body>
+
+</html>
